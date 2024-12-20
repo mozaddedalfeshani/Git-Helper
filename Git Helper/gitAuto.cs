@@ -226,8 +226,6 @@ namespace Git_Helper
 
         private void guna2Button2_Click(object sender, EventArgs e)
         {
-            
-
             try
             {
                 // Check if the folder exists
@@ -247,7 +245,32 @@ namespace Git_Helper
                     UseShellExecute = false,
                     CreateNoWindow = true
                 };
-                
+
+                using (Process process = new Process { StartInfo = startInfo })
+                {
+                    process.Start();
+
+                    using (StreamWriter writer = process.StandardInput)
+                    {
+                        if (writer.BaseStream.CanWrite)
+                        {
+                            // Check if the folder is a Git repository
+                            writer.WriteLine("git rev-parse --is-inside-work-tree");
+                        }
+                    }
+
+                    string output = process.StandardOutput.ReadToEnd();
+                    MessageBox.Show(output,"Hel");
+                    process.WaitForExit();
+
+                    if (string.IsNullOrWhiteSpace(output) || !output.Trim().Equals("true", StringComparison.OrdinalIgnoreCase))
+                    {
+                        MessageBox.Show("The specified folder is not a valid Git repository.");
+                        return;
+                    }
+                }
+
+                // Proceed with checking and updating remote URL
                 using (Process process = new Process { StartInfo = startInfo })
                 {
                     process.Start();
@@ -266,31 +289,50 @@ namespace Git_Helper
 
                     if (!string.IsNullOrWhiteSpace(output))
                     {
-                        // Remote URL exists, display it in the remoteUrl input field
-                        remoteUrl.Text = "Already Remote URL Exist";
-                        MessageBox.Show("Existing remote URL found and displayed.");
-                        // run command to cmd to set remote url 
+                        // Remote URL exists
+                        MessageBox.Show("Existing remote URL found: " + output.Trim());
+                        remoteUrl.Text = output.Trim();
+
+                        if (string.IsNullOrWhiteSpace(remoteUrl.Text))
+                        {
+                            MessageBox.Show("Please enter a valid remote URL before proceeding.");
+                            return;
+                        }
+
+                        // Update the remote URL
                         process.Start();
                         using (StreamWriter writer = process.StandardInput)
                         {
                             if (writer.BaseStream.CanWrite)
                             {
-                                // Check if a remote URL exists
                                 writer.WriteLine("git remote set-url origin " + remoteUrl.Text);
                             }
                         }
 
-                        string output1 = process.StandardOutput.ReadToEnd();
                         process.WaitForExit();
                         MessageBox.Show("Remote URL updated successfully.");
-                        remoteUrl.Text = $"New URL: {remoteUrl}";
-
-
                     }
                     else
                     {
-                        // No remote URL exists, prompt user to enter one
-                        MessageBox.Show("No existing remote URL found. Please enter a new remote URL.");
+                        // No remote URL exists
+                        if (string.IsNullOrWhiteSpace(remoteUrl.Text))
+                        {
+                            MessageBox.Show("No existing remote URL found. Please enter a new remote URL.");
+                            return;
+                        }
+
+                        // Add the new remote URL
+                        process.Start();
+                        using (StreamWriter writer = process.StandardInput)
+                        {
+                            if (writer.BaseStream.CanWrite)
+                            {
+                                writer.WriteLine("git remote add origin " + remoteUrl.Text);
+                            }
+                        }
+
+                        process.WaitForExit();
+                        MessageBox.Show("Remote URL added successfully.");
                     }
                 }
             }
