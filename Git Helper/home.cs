@@ -88,8 +88,123 @@ namespace Git_Helper
         private void guna2Button2_Click(object sender, EventArgs e)
         {
             // Placeholder for button functionality
+            if (IsRunningAsAdministrator())
+            {
+                try
+                {
+                    MessageBox.Show("Starting deep cleaning process...", "Deep Cleaning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    CleanTemporaryFiles();
+                    ClearCacheDirectories();
+                    RemoveOldLogFiles();
+                    CleanWindowsUpdateCache();
+                    OptimizeMemoryUsage();
+
+                    MessageBox.Show("Deep cleaning completed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error during deep cleaning: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Deep cleaning requires Administrator privileges. Please restart the application as Administrator.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        // Function to clean temporary files
+        private void CleanTemporaryFiles()
+        {
+            string tempPath = Path.GetTempPath();
+            string[] tempFiles = Directory.GetFiles(tempPath);
+
+            foreach (string tempFile in tempFiles)
+            {
+                if (!IsFileInUse(tempFile))
+                {
+                    try
+                    {
+                        File.Delete(tempFile);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error deleting file {tempFile}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
 
+        // Function to clear cache directories (browser or app-specific paths can be added here)
+        private void ClearCacheDirectories()
+        {
+            string[] cacheDirectories = {
+        Environment.GetFolderPath(Environment.SpecialFolder.InternetCache), // Internet Explorer Cache
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Google\\Chrome\\User Data\\Default\\Cache"), // Chrome Cache
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Mozilla\\Firefox\\Profiles") // Firefox Cache
+    };
+
+            foreach (string cacheDir in cacheDirectories)
+            {
+                if (Directory.Exists(cacheDir))
+                {
+                    try
+                    {
+                        Directory.Delete(cacheDir, true); // Delete directory and all subcontents
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error deleting cache directory {cacheDir}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        // Function to remove old log files (based on custom paths)
+        private void RemoveOldLogFiles()
+        {
+            string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Logs");
+
+            if (Directory.Exists(logPath))
+            {
+                string[] logFiles = Directory.GetFiles(logPath, "*.log");
+
+                foreach (string logFile in logFiles)
+                {
+                    try
+                    {
+                        File.Delete(logFile);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error deleting log file {logFile}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        // Function to clean up Windows Update Cache (may require elevated permissions)
+        private void CleanWindowsUpdateCache()
+        {
+            string windowsUpdateCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "SoftwareDistribution\\Download");
+
+            if (Directory.Exists(windowsUpdateCachePath))
+            {
+                try
+                {
+                    Directory.Delete(windowsUpdateCachePath, true); // Delete Windows Update cache
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error cleaning Windows Update cache: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        /// <summary>
+        /// ////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void scanClean_Click(object sender, EventArgs e)
         {
             try
