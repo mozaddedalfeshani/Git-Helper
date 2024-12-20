@@ -54,6 +54,7 @@
             this.exit.PressedDepth = 60;
             this.exit.Size = new System.Drawing.Size(45, 29);
             this.exit.TabIndex = 0;
+            this.exit.Click += new System.EventHandler(this.exit_Click);
             // 
             // guna2DragControl1
             // 
@@ -96,6 +97,7 @@
             this.username.SelectedText = "";
             this.username.Size = new System.Drawing.Size(229, 38);
             this.username.TabIndex = 3;
+            this.username.TextChanged += new System.EventHandler(this.username_TextChanged);
             // 
             // password
             // 

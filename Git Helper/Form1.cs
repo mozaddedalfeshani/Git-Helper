@@ -42,6 +42,7 @@ namespace Git_Helper
             {
                 home home = new home();
                 home.Show();
+                // this window will close after login
                 this.Hide();
 
 
@@ -74,6 +75,17 @@ namespace Git_Helper
         {
             // here click to redirect to whatsapp with my whatsapp number +8801755267077
             System.Diagnostics.Process.Start("https://wa.me/+8801755267077");
+        }
+
+        private void exit_Click(object sender, EventArgs e)
+        {
+            // close the application
+            Application.Exit();
+        }
+
+        private void username_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
