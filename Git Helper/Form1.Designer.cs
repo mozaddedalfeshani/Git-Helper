@@ -36,7 +36,6 @@
             this.username = new Guna.UI2.WinForms.Guna2TextBox();
             this.password = new Guna.UI2.WinForms.Guna2TextBox();
             this.loginButton = new Guna.UI2.WinForms.Guna2Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.discord = new Guna.UI2.WinForms.Guna2Button();
             this.whatsapp = new Guna.UI2.WinForms.Guna2Button();
             this.SuspendLayout();
@@ -129,6 +128,7 @@
             // 
             this.loginButton.Animated = true;
             this.loginButton.BackColor = System.Drawing.Color.Transparent;
+            this.loginButton.BorderRadius = 10;
             this.loginButton.BorderThickness = 2;
             this.loginButton.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.loginButton.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
@@ -221,7 +221,6 @@
         private Guna.UI2.WinForms.Guna2TextBox username;
         private Guna.UI2.WinForms.Guna2TextBox password;
         private Guna.UI2.WinForms.Guna2Button loginButton;
-        private System.Windows.Forms.Timer timer1;
         private Guna.UI2.WinForms.Guna2Button whatsapp;
         private Guna.UI2.WinForms.Guna2Button discord;
     }

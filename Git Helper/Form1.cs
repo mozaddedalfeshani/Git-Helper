@@ -40,14 +40,16 @@ namespace Git_Helper
             KeyAuthApp.login(username.Text, password.Text);
             if (KeyAuthApp.response.success)
             {
-                MessageBox.Show("Logged in!");
-                timer1.Start();
-                
+                home home = new home();
+                home.Show();
+                this.Hide();
+
+
             }
             else
             {
                 MessageBox.Show("Failed to login!");
-                timer1.Stop();
+                
             }
 
         }
