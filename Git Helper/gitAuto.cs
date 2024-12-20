@@ -74,7 +74,6 @@ namespace Git_Helper
 
         private void gitUpdate_Click(object sender, EventArgs e)
         {
-            // when user click this button it will run git add . and git commit -m {value will collect from commitInput  } and git push
             string path = pathValue.Text;
             string commitMessage = commitInput.Text;
 
@@ -88,18 +87,43 @@ namespace Git_Helper
                         FileName = "cmd.exe",
                         RedirectStandardInput = true,
                         RedirectStandardOutput = true,
+                        RedirectStandardError = true, // Capture error output
                         UseShellExecute = false,
                         CreateNoWindow = true
                     };
                     System.Diagnostics.Process process = new System.Diagnostics.Process { StartInfo = startInfo };
                     process.Start();
+
                     // Navigate to the Git repository directory
-                    process.StandardInput.WriteLine("cd " + path);
-                    process.StandardInput.WriteLine("git add .");
+                    process.StandardInput.WriteLine("cd \"" + path + "\"");
+
+                    // Force add files, even those ignored by .gitignore
+                    process.StandardInput.WriteLine("git add -f .");
                     process.StandardInput.WriteLine("git commit -m \"" + commitMessage + "\"");
                     process.StandardInput.WriteLine("git push");
-                    // Inform the user
-                    MessageBox.Show("Git repository updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Close the input stream
+                    process.StandardInput.Close();
+
+                    // Wait for the process to exit (ensure commands are complete)
+                    string output = process.StandardOutput.ReadToEnd();
+                    string errorOutput = process.StandardError.ReadToEnd();
+                    process.WaitForExit();
+
+                    // Display detailed output for debugging
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        MessageBox.Show("Git update output: " + output, "Git Output", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    if (!string.IsNullOrEmpty(errorOutput))
+                    {
+                        MessageBox.Show("Error during Git update: " + errorOutput, "Git Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        // Inform the user that the Git commands were successful
+                        MessageBox.Show("Git repository updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -112,8 +136,10 @@ namespace Git_Helper
                 // If the folder is not a Git repo
                 MessageBox.Show("Selected folder is not a Git repository.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
+
+
+
 
         private void guna2TextBox2_TextChanged(object sender, EventArgs e)
         {
