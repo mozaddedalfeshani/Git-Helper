@@ -192,8 +192,9 @@
             this.scanClean.Name = "scanClean";
             this.scanClean.Size = new System.Drawing.Size(155, 45);
             this.scanClean.TabIndex = 6;
-            this.scanClean.Text = "Scan and Clean";
+            this.scanClean.Text = "Git Automate";
             this.scanClean.UseTransparentBackground = true;
+            this.scanClean.Click += new System.EventHandler(this.scanClean_Click_1);
             // 
             // guna2HtmlLabel1
             // 

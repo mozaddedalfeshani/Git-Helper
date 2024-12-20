@@ -146,5 +146,12 @@ namespace Git_Helper
         {
             System.Diagnostics.Process.Start("https://discord.gg/EZTx8AvjR9");
         }
+
+        private void scanClean_Click_1(object sender, EventArgs e)
+        {
+            gitAuto gitAuto = new gitAuto();
+            gitAuto.Show();
+
+        }
     }
 }
