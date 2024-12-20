@@ -101,7 +101,7 @@ namespace Git_Helper
 
                 // Step 2: Restart explorer.exe and isn't start explorer window
 
-                System.Diagnostics.Process.Start("explorer.exe");
+                //System.Diagnostics.Process.Start("explorer.exe");
 
                 // Inform the user
                 MessageBox.Show("Windows Explorer has been restarted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
