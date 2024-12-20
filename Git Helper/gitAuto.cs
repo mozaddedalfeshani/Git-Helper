@@ -2,10 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Windows.Forms;
+using KeyAuth;
 
 
 namespace Git_Helper
@@ -16,6 +13,7 @@ namespace Git_Helper
         {
             InitializeComponent();
             // Initially, you can leave this empty or display a message.
+            
             branchName.Text = "Select a folder to check if it's a Git repository.";
         }
         string pathPublic = "";
@@ -195,10 +193,10 @@ namespace Git_Helper
                     {
                         //MessageBox.Show("Git output: " + output, "Git Output", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    if (!string.IsNullOrEmpty(errorOutput))
-                    {
-                        MessageBox.Show("Error during Git update: " + errorOutput, "Git Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    //if (!string.IsNullOrEmpty(errorOutput))
+                    //{
+                    //    MessageBox.Show("Error during Git update: " + errorOutput, "Git Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //}
                     else
                     {
                         // Inform the user that the Git commands were successful
@@ -226,79 +224,81 @@ namespace Git_Helper
         }
 
 
-private void guna2Button2_Click(object sender, EventArgs e)
-    {
-        string url = remoteUrl.Text;
-        
-
-        try
+        private void guna2Button2_Click(object sender, EventArgs e)
         {
-            // Check if the folder exists
-            if (!Directory.Exists(pathPublic))
-            {
-                MessageBox.Show("The specified path does not exist.");
-                return;
-            }
+            
 
-            // Prepare the Git commands
-            ProcessStartInfo startInfo = new ProcessStartInfo
+            try
             {
-                WorkingDirectory = pathPublic,
-                FileName = "cmd.exe",
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
-            using (Process process = new Process { StartInfo = startInfo })
-            {
-                process.Start();
-
-                using (StreamWriter writer = process.StandardInput)
+                // Check if the folder exists
+                if (!Directory.Exists(pathPublic))
                 {
-                    if (writer.BaseStream.CanWrite)
-                    {
-                        // Check if a remote URL exists
-                        writer.WriteLine("git remote get-url origin");
-                    }
+                    MessageBox.Show("The specified path does not exist.");
+                    return;
                 }
 
-                string output = process.StandardOutput.ReadToEnd();
-
-                if (output.Contains("fatal:")) // If no remote URL exists
+                // Prepare the process start info
+                ProcessStartInfo startInfo = new ProcessStartInfo
                 {
+                    WorkingDirectory = pathPublic,
+                    FileName = "cmd.exe",
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+                
+                using (Process process = new Process { StartInfo = startInfo })
+                {
+                    process.Start();
+
                     using (StreamWriter writer = process.StandardInput)
                     {
                         if (writer.BaseStream.CanWrite)
                         {
-                            // Add the remote URL
-                            writer.WriteLine($"git remote add origin {url}");
+                            // Check if a remote URL exists
+                            writer.WriteLine("git config --get remote.origin.url");
                         }
                     }
-                }
-                else // If a remote URL exists
-                {
-                    using (StreamWriter writer = process.StandardInput)
+
+                    string output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+
+                    if (!string.IsNullOrWhiteSpace(output))
                     {
-                        if (writer.BaseStream.CanWrite)
+                        // Remote URL exists, display it in the remoteUrl input field
+                        remoteUrl.Text = "Already Remote URL Exist";
+                        MessageBox.Show("Existing remote URL found and displayed.");
+                        // run command to cmd to set remote url 
+                        process.Start();
+                        using (StreamWriter writer = process.StandardInput)
                         {
-                            // Set the new remote URL
-                            writer.WriteLine($"git remote set-url origin {url}");
+                            if (writer.BaseStream.CanWrite)
+                            {
+                                // Check if a remote URL exists
+                                writer.WriteLine("git remote set-url origin " + remoteUrl.Text);
+                            }
                         }
+
+                        string output1 = process.StandardOutput.ReadToEnd();
+                        process.WaitForExit();
+                        MessageBox.Show("Remote URL updated successfully.");
+                        remoteUrl.Text = $"New URL: {remoteUrl}";
+
+
+                    }
+                    else
+                    {
+                        // No remote URL exists, prompt user to enter one
+                        MessageBox.Show("No existing remote URL found. Please enter a new remote URL.");
                     }
                 }
-
-                process.WaitForExit();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
+        }
 
-            MessageBox.Show("Git remote URL has been updated successfully.");
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"An error occurred: {ex.Message}");
-        }
     }
-
-}
 }
