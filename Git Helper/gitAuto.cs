@@ -12,7 +12,7 @@ namespace Git_Helper
             // Initially, you can leave this empty or display a message.
             branchName.Text = "Select a folder to check if it's a Git repository.";
         }
-
+        string pathPublic = "";
         private void guna2ControlBox1_Click(object sender, EventArgs e)
         {
             // Hide the form when the control box is clicked (close button)
@@ -43,6 +43,7 @@ namespace Git_Helper
                 // Get the selected folder path
                 string selectedPath = folderBrowserDialog.SelectedPath;
                 pathValue.Text = selectedPath;
+                pathPublic = selectedPath;
 
                 // Check if the selected folder is a Git repository
                 if (Directory.Exists(selectedPath + "\\.git"))
@@ -74,8 +75,16 @@ namespace Git_Helper
 
         private void gitUpdate_Click(object sender, EventArgs e)
         {
-            string path = pathValue.Text;
+            string path = pathPublic.ToString();
+            MessageBox.Show(path);
+
             string commitMessage = commitInput.Text;
+
+            if (string.IsNullOrEmpty(commitMessage))
+            {
+                MessageBox.Show("Please provide a commit message.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (Directory.Exists(path + "\\.git"))
             {
@@ -84,23 +93,21 @@ namespace Git_Helper
                     // Run git commands using ProcessStartInfo
                     System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
                     {
-                        FileName = "cmd.exe",
+                        FileName = "cmd.exe", // Open cmd.exe
                         RedirectStandardInput = true,
                         RedirectStandardOutput = true,
                         RedirectStandardError = true, // Capture error output
                         UseShellExecute = false,
-                        CreateNoWindow = true
+                        CreateNoWindow = true, // No window for cmd to show up
+                        WorkingDirectory = path // Set the working directory to the Git repo
                     };
+
                     System.Diagnostics.Process process = new System.Diagnostics.Process { StartInfo = startInfo };
                     process.Start();
 
-                    // Navigate to the Git repository directory
-                    process.StandardInput.WriteLine("cd \"" + path + "\"");
-
-                    // Force add files, even those ignored by .gitignore
-                    process.StandardInput.WriteLine("git add -f .");
-                    process.StandardInput.WriteLine("git commit -m \"" + commitMessage + "\"");
-                    process.StandardInput.WriteLine("git push");
+                    // Run the git commands (add files and commit)
+                    process.StandardInput.WriteLine("git add .");
+                    process.StandardInput.WriteLine($"git commit -m \"{commitMessage}\"");
 
                     // Close the input stream
                     process.StandardInput.Close();
@@ -110,10 +117,10 @@ namespace Git_Helper
                     string errorOutput = process.StandardError.ReadToEnd();
                     process.WaitForExit();
 
-                    // Display detailed output for debugging
+                    // Display output or error
                     if (!string.IsNullOrEmpty(output))
                     {
-                        MessageBox.Show("Git update output: " + output, "Git Output", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //MessageBox.Show("Git output: " + output, "Git Output", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     if (!string.IsNullOrEmpty(errorOutput))
                     {
@@ -140,9 +147,70 @@ namespace Git_Helper
 
 
 
-
         private void guna2TextBox2_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void pushtogit_Click(object sender, EventArgs e)
+        {
+            // get path 
+            string path = pathPublic.ToString();
+            MessageBox.Show(path);
+
+            // open cmd and cd path and run command git push -f
+            if (Directory.Exists(path + "\\.git"))
+            {
+                try
+                {
+                    // Run git commands using ProcessStartInfo
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = "cmd.exe", // Open cmd.exe
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true, // Capture error output
+                        UseShellExecute = false,
+                        CreateNoWindow = true, // No window for cmd to show up
+                        WorkingDirectory = path // Set the working directory to the Git repo
+                    };
+                    System.Diagnostics.Process process = new System.Diagnostics.Process { StartInfo = startInfo };
+                    process.Start();
+                    // Run the git commands (add files and commit)
+                    process.StandardInput.WriteLine("git push -f");
+                    // Close the input stream
+                    process.StandardInput.Close();
+                    // Wait for the process to exit (ensure commands are complete)
+                    string output = process.StandardOutput.ReadToEnd();
+                    string errorOutput = process.StandardError.ReadToEnd();
+                    process.WaitForExit();
+                    // Display output or error
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        //MessageBox.Show("Git output: " + output, "Git Output", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    if (!string.IsNullOrEmpty(errorOutput))
+                    {
+                        MessageBox.Show("Error during Git update: " + errorOutput, "Git Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        // Inform the user that the Git commands were successful
+                        MessageBox.Show("Git repository updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions (e.g., file not found, etc.)
+                    MessageBox.Show("Error updating Git repository: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                // If the folder is not a Git repo
+                MessageBox.Show("Selected folder is not a Git repository.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
 
         }
     }

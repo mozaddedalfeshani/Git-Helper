@@ -42,6 +42,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.branchName = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.pushtogit = new Guna.UI2.WinForms.Guna2Button();
             this.SuspendLayout();
             // 
             // guna2BorderlessForm1
@@ -146,11 +147,11 @@
             this.gitUpdate.FillColor = System.Drawing.Color.Empty;
             this.gitUpdate.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.gitUpdate.ForeColor = System.Drawing.Color.White;
-            this.gitUpdate.Location = new System.Drawing.Point(304, 386);
+            this.gitUpdate.Location = new System.Drawing.Point(185, 387);
             this.gitUpdate.Name = "gitUpdate";
             this.gitUpdate.Size = new System.Drawing.Size(185, 49);
             this.gitUpdate.TabIndex = 4;
-            this.gitUpdate.Text = "Update";
+            this.gitUpdate.Text = "Add Commit";
             this.gitUpdate.UseTransparentBackground = true;
             this.gitUpdate.Click += new System.EventHandler(this.gitUpdate_Click);
             // 
@@ -190,12 +191,37 @@
             this.branchName.Text = "Branch Name";
             this.branchName.Click += new System.EventHandler(this.guna2HtmlLabel2_Click);
             // 
+            // pushtogit
+            // 
+            this.pushtogit.Animated = true;
+            this.pushtogit.AutoRoundedCorners = true;
+            this.pushtogit.BackColor = System.Drawing.Color.Transparent;
+            this.pushtogit.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.pushtogit.BorderRadius = 23;
+            this.pushtogit.BorderThickness = 1;
+            this.pushtogit.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.pushtogit.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.pushtogit.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.pushtogit.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.pushtogit.FillColor = System.Drawing.Color.Empty;
+            this.pushtogit.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.pushtogit.ForeColor = System.Drawing.Color.White;
+            this.pushtogit.Location = new System.Drawing.Point(438, 387);
+            this.pushtogit.Name = "pushtogit";
+            this.pushtogit.PressedColor = System.Drawing.Color.IndianRed;
+            this.pushtogit.Size = new System.Drawing.Size(185, 49);
+            this.pushtogit.TabIndex = 8;
+            this.pushtogit.Text = "Push";
+            this.pushtogit.UseTransparentBackground = true;
+            this.pushtogit.Click += new System.EventHandler(this.pushtogit_Click);
+            // 
             // gitAuto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(800, 514);
+            this.Controls.Add(this.pushtogit);
             this.Controls.Add(this.branchName);
             this.Controls.Add(this.guna2HtmlLabel1);
             this.Controls.Add(this.guna2ControlBox1);
@@ -230,5 +256,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private Guna.UI2.WinForms.Guna2HtmlLabel branchName;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
+        private Guna.UI2.WinForms.Guna2Button pushtogit;
     }
 }

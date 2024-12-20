@@ -53,10 +53,10 @@
             // 
             this.guna2ControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.guna2ControlBox1.Animated = true;
-            this.guna2ControlBox1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(139)))), ((int)(((byte)(152)))), ((int)(((byte)(166)))));
             this.guna2ControlBox1.IconColor = System.Drawing.Color.White;
             this.guna2ControlBox1.Location = new System.Drawing.Point(516, -1);
             this.guna2ControlBox1.Name = "guna2ControlBox1";
+            this.guna2ControlBox1.PressedColor = System.Drawing.Color.Red;
             this.guna2ControlBox1.Size = new System.Drawing.Size(45, 29);
             this.guna2ControlBox1.TabIndex = 0;
             this.guna2ControlBox1.Click += new System.EventHandler(this.guna2ControlBox1_Click);
@@ -97,9 +97,9 @@
             // 
             this.refresh.Animated = true;
             this.refresh.BackColor = System.Drawing.Color.Transparent;
-            this.refresh.BorderColor = System.Drawing.Color.White;
             this.refresh.BorderRadius = 12;
             this.refresh.BorderThickness = 1;
+            this.refresh.CheckedState.BorderColor = System.Drawing.Color.Lime;
             this.refresh.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.refresh.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.refresh.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -108,9 +108,9 @@
             this.refresh.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.refresh.ForeColor = System.Drawing.Color.White;
             this.refresh.HoverState.BorderColor = System.Drawing.Color.Red;
-            this.refresh.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.refresh.HoverState.FillColor = System.Drawing.Color.Black;
             this.refresh.HoverState.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.refresh.HoverState.ForeColor = System.Drawing.Color.Black;
+            this.refresh.HoverState.ForeColor = System.Drawing.Color.White;
             this.refresh.Location = new System.Drawing.Point(91, 234);
             this.refresh.Name = "refresh";
             this.refresh.Size = new System.Drawing.Size(155, 45);
@@ -123,9 +123,9 @@
             // 
             this.optimized.Animated = true;
             this.optimized.BackColor = System.Drawing.Color.Transparent;
-            this.optimized.BorderColor = System.Drawing.Color.White;
             this.optimized.BorderRadius = 12;
             this.optimized.BorderThickness = 1;
+            this.optimized.CheckedState.BorderColor = System.Drawing.Color.Lime;
             this.optimized.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.optimized.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.optimized.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -134,7 +134,7 @@
             this.optimized.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
             this.optimized.ForeColor = System.Drawing.Color.White;
             this.optimized.HoverState.BorderColor = System.Drawing.Color.Red;
-            this.optimized.HoverState.FillColor = System.Drawing.Color.Blue;
+            this.optimized.HoverState.FillColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.optimized.HoverState.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.optimized.HoverState.ForeColor = System.Drawing.Color.White;
             this.optimized.Location = new System.Drawing.Point(91, 324);
@@ -143,14 +143,15 @@
             this.optimized.TabIndex = 4;
             this.optimized.Text = "Optimized";
             this.optimized.UseTransparentBackground = true;
+            this.optimized.Click += new System.EventHandler(this.optimized_Click);
             // 
             // DeepClean
             // 
             this.DeepClean.Animated = true;
             this.DeepClean.BackColor = System.Drawing.Color.Transparent;
-            this.DeepClean.BorderColor = System.Drawing.Color.White;
             this.DeepClean.BorderRadius = 12;
             this.DeepClean.BorderThickness = 1;
+            this.DeepClean.CheckedState.BorderColor = System.Drawing.Color.Lime;
             this.DeepClean.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.DeepClean.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.DeepClean.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -159,9 +160,9 @@
             this.DeepClean.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.DeepClean.ForeColor = System.Drawing.Color.White;
             this.DeepClean.HoverState.BorderColor = System.Drawing.Color.Red;
-            this.DeepClean.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.DeepClean.HoverState.FillColor = System.Drawing.Color.Black;
             this.DeepClean.HoverState.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DeepClean.HoverState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.DeepClean.HoverState.ForeColor = System.Drawing.Color.White;
             this.DeepClean.Location = new System.Drawing.Point(296, 324);
             this.DeepClean.Name = "DeepClean";
             this.DeepClean.Size = new System.Drawing.Size(155, 45);
@@ -174,9 +175,9 @@
             // 
             this.scanClean.Animated = true;
             this.scanClean.BackColor = System.Drawing.Color.Transparent;
-            this.scanClean.BorderColor = System.Drawing.Color.White;
             this.scanClean.BorderRadius = 12;
             this.scanClean.BorderThickness = 1;
+            this.scanClean.CheckedState.BorderColor = System.Drawing.Color.Lime;
             this.scanClean.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.scanClean.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.scanClean.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -185,9 +186,9 @@
             this.scanClean.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.scanClean.ForeColor = System.Drawing.Color.White;
             this.scanClean.HoverState.BorderColor = System.Drawing.Color.Red;
-            this.scanClean.HoverState.FillColor = System.Drawing.Color.Lime;
+            this.scanClean.HoverState.FillColor = System.Drawing.Color.Black;
             this.scanClean.HoverState.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.scanClean.HoverState.ForeColor = System.Drawing.Color.Black;
+            this.scanClean.HoverState.ForeColor = System.Drawing.Color.White;
             this.scanClean.Location = new System.Drawing.Point(296, 234);
             this.scanClean.Name = "scanClean";
             this.scanClean.Size = new System.Drawing.Size(155, 45);

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Management;
 using System.Windows.Forms;
+using System.Security.Principal;
 
 namespace Git_Helper
 {
@@ -152,6 +154,89 @@ namespace Git_Helper
             gitAuto gitAuto = new gitAuto();
             gitAuto.Show();
 
+        }
+        // Function to check if the application is running as Administrator
+        private bool IsRunningAsAdministrator()
+        {
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+        private void optimized_Click(object sender, EventArgs e)
+        {
+            if (IsRunningAsAdministrator())
+            {
+                // If the application is running as administrator, perform optimization
+                try
+                {
+                    CleanUpTemporaryFiles();
+                    OptimizeMemoryUsage();
+
+                    MessageBox.Show("System optimization completed successfully.", "Optimization", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error during optimization: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("This application needs to be run as Administrator for full functionality.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void CleanUpTemporaryFiles()
+        {
+            string tempPath = Path.GetTempPath();
+            string[] tempFiles = Directory.GetFiles(tempPath);
+
+            foreach (string tempFile in tempFiles)
+            {
+                // Skip files that are currently being used (locked by another process)
+                if (IsFileInUse(tempFile))
+                {
+                    continue;  // Skip locked file
+                }
+
+                try
+                {
+                    File.Delete(tempFile);
+                }
+                catch (Exception ex)
+                {
+                    // Handle any errors deleting files (permission issues, etc.)
+                    MessageBox.Show("Error deleting file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        // Function to check if a file is being used by another process
+        private bool IsFileInUse(string filePath)
+        {
+            FileStream fs = null;
+            try
+            {
+                // Attempt to open the file exclusively
+                fs = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                return false;  // If we can open it, it's not in use
+            }
+            catch (IOException)
+            {
+                // If an IOException is thrown, the file is locked
+                return true;
+            }
+            finally
+            {
+                fs?.Close();  // Ensure the FileStream is closed
+            }
+        }
+        // Example function to optimize memory usage (e.g., forcing garbage collection)
+        private void OptimizeMemoryUsage()
+        {
+            // Forcing garbage collection (though generally it's better to let the system handle this)
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
         }
     }
 }
