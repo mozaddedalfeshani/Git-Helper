@@ -3,6 +3,7 @@ using System.IO;
 using System.Management;
 using System.Windows.Forms;
 using System.Security.Principal;
+using KeyAuth;
 
 namespace Git_Helper
 {
@@ -13,6 +14,7 @@ namespace Git_Helper
         public home()
         {
             InitializeComponent();
+
 
             // Set desktopUserName to display the current user's username
             desktopUserName.Text =  Environment.UserName;
@@ -352,6 +354,11 @@ namespace Git_Helper
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();
+        }
+
+        private void expireDate_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

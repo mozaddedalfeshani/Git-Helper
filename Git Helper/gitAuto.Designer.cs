@@ -45,6 +45,11 @@
             this.pushtogit = new Guna.UI2.WinForms.Guna2Button();
             this.SuspendLayout();
             // 
+            // guna2AnimateWindow1
+            // 
+            this.guna2AnimateWindow1.Interval = 700;
+            this.guna2AnimateWindow1.TargetForm = this;
+            // 
             // guna2BorderlessForm1
             // 
             this.guna2BorderlessForm1.ContainerControl = this;
@@ -230,6 +235,7 @@
             this.Controls.Add(this.guna2Button1);
             this.Controls.Add(this.pathValue);
             this.Controls.Add(this.selectFolder);
+            this.Cursor = System.Windows.Forms.Cursors.PanNW;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "gitAuto";
