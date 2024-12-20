@@ -1,6 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
+
 
 namespace Git_Helper
 {
@@ -213,5 +219,86 @@ namespace Git_Helper
 
 
         }
+
+        private void guna2HtmlLabel2_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+
+private void guna2Button2_Click(object sender, EventArgs e)
+    {
+        string url = remoteUrl.Text;
+        
+
+        try
+        {
+            // Check if the folder exists
+            if (!Directory.Exists(pathPublic))
+            {
+                MessageBox.Show("The specified path does not exist.");
+                return;
+            }
+
+            // Prepare the Git commands
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                WorkingDirectory = pathPublic,
+                FileName = "cmd.exe",
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using (Process process = new Process { StartInfo = startInfo })
+            {
+                process.Start();
+
+                using (StreamWriter writer = process.StandardInput)
+                {
+                    if (writer.BaseStream.CanWrite)
+                    {
+                        // Check if a remote URL exists
+                        writer.WriteLine("git remote get-url origin");
+                    }
+                }
+
+                string output = process.StandardOutput.ReadToEnd();
+
+                if (output.Contains("fatal:")) // If no remote URL exists
+                {
+                    using (StreamWriter writer = process.StandardInput)
+                    {
+                        if (writer.BaseStream.CanWrite)
+                        {
+                            // Add the remote URL
+                            writer.WriteLine($"git remote add origin {url}");
+                        }
+                    }
+                }
+                else // If a remote URL exists
+                {
+                    using (StreamWriter writer = process.StandardInput)
+                    {
+                        if (writer.BaseStream.CanWrite)
+                        {
+                            // Set the new remote URL
+                            writer.WriteLine($"git remote set-url origin {url}");
+                        }
+                    }
+                }
+
+                process.WaitForExit();
+            }
+
+            MessageBox.Show("Git remote URL has been updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
     }
+
+}
 }

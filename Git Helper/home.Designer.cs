@@ -41,7 +41,7 @@
             this.scanClean = new Guna.UI2.WinForms.Guna2Button();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.discord = new Guna.UI2.WinForms.Guna2Button();
-            this.expireDate = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.guna2ControlBox2 = new Guna.UI2.WinForms.Guna2ControlBox();
             this.SuspendLayout();
             // 
             // guna2AnimateWindow1
@@ -53,6 +53,7 @@
             // 
             this.guna2ControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.guna2ControlBox1.Animated = true;
+            this.guna2ControlBox1.FillColor = System.Drawing.Color.Transparent;
             this.guna2ControlBox1.IconColor = System.Drawing.Color.White;
             this.guna2ControlBox1.Location = new System.Drawing.Point(516, -1);
             this.guna2ControlBox1.Name = "guna2ControlBox1";
@@ -228,16 +229,16 @@
             this.discord.UseTransparentBackground = true;
             this.discord.Click += new System.EventHandler(this.discord_Click);
             // 
-            // expireDate
+            // guna2ControlBox2
             // 
-            this.expireDate.BackColor = System.Drawing.Color.Transparent;
-            this.expireDate.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.expireDate.Location = new System.Drawing.Point(224, 193);
-            this.expireDate.Name = "expireDate";
-            this.expireDate.Size = new System.Drawing.Size(70, 16);
-            this.expireDate.TabIndex = 9;
-            this.expireDate.Text = "Expire in : ";
-            this.expireDate.Click += new System.EventHandler(this.expireDate_Click);
+            this.guna2ControlBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.guna2ControlBox2.ControlBoxType = Guna.UI2.WinForms.Enums.ControlBoxType.MinimizeBox;
+            this.guna2ControlBox2.FillColor = System.Drawing.Color.Transparent;
+            this.guna2ControlBox2.IconColor = System.Drawing.Color.White;
+            this.guna2ControlBox2.Location = new System.Drawing.Point(475, -1);
+            this.guna2ControlBox2.Name = "guna2ControlBox2";
+            this.guna2ControlBox2.Size = new System.Drawing.Size(45, 29);
+            this.guna2ControlBox2.TabIndex = 9;
             // 
             // home
             // 
@@ -247,7 +248,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(560, 498);
-            this.Controls.Add(this.expireDate);
+            this.Controls.Add(this.guna2ControlBox2);
             this.Controls.Add(this.discord);
             this.Controls.Add(this.guna2HtmlLabel1);
             this.Controls.Add(this.scanClean);
@@ -281,6 +282,6 @@
         private Guna.UI2.WinForms.Guna2Button refresh;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private Guna.UI2.WinForms.Guna2Button discord;
-        private Guna.UI2.WinForms.Guna2HtmlLabel expireDate;
+        private Guna.UI2.WinForms.Guna2ControlBox guna2ControlBox2;
     }
 }
