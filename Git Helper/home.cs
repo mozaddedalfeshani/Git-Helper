@@ -4,6 +4,8 @@ using System.Management;
 using System.Windows.Forms;
 using System.Security.Principal;
 using KeyAuth;
+using System.Diagnostics;
+using MCLX;
 
 namespace Git_Helper
 {
@@ -207,23 +209,56 @@ namespace Git_Helper
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        //private void scanClean_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        // Step 1: Kill the explorer.exe process
+        //        foreach (var process in System.Diagnostics.Process.GetProcessesByName("explorer"))
+        //        {
+        //            process.Kill();
+        //            process.WaitForExit(); // Ensure the process is terminated
+
+        //        }
+
+        //        // Step 2: Restart explorer.exe and isn't start explorer window
+
+
+
+
+        //        // Inform the user
+        //        //MessageBox.Show("Windows Explorer has been restarted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //        Console.Beep(500, 1000);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Handle any errors gracefully
+        //        MessageBox.Show($"An error occurred while restarting Windows Explorer: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
         private void scanClean_Click(object sender, EventArgs e)
         {
             try
             {
-                // Step 1: Kill the explorer.exe process
+                // Step 1: Kill all explorer.exe processes
                 foreach (var process in System.Diagnostics.Process.GetProcessesByName("explorer"))
                 {
                     process.Kill();
-                    process.WaitForExit(); // Ensure the process is terminated
+                    process.WaitForExit(); // Ensure each process is terminated
                 }
 
-                // Step 2: Restart explorer.exe and isn't start explorer window
+                // Step 2: Restart explorer.exe without opening an Explorer window
+                var startInfo = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = "/factory,{682159D9-C321-47CA-B3F1-30E36B2EC8B9}", // Starts without an explorer window
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+                System.Diagnostics.Process.Start(startInfo);
 
-                //System.Diagnostics.Process.Start("explorer.exe");
-
-                // Inform the user
-                MessageBox.Show("Windows Explorer has been restarted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Inform the user via a system beep
+                Console.Beep(500, 1000); // 500 Hz for 1 second
             }
             catch (Exception ex)
             {
@@ -231,6 +266,7 @@ namespace Git_Helper
                 MessageBox.Show($"An error occurred while restarting Windows Explorer: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private void guna2ControlBox1_Click(object sender, EventArgs e)
@@ -286,14 +322,13 @@ namespace Git_Helper
                 // If the application is running as administrator, perform optimization
                 try
                 {
-                    CleanUpTemporaryFiles();
-                    OptimizeMemoryUsage();
+         
+                     Process.Start("cleanmgr");
 
-                    MessageBox.Show("System optimization completed successfully.", "Optimization", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error during optimization: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error during opening: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -358,6 +393,48 @@ namespace Git_Helper
 
         private void expireDate_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void guna2Button2_Click_1(object sender, EventArgs e)
+        {
+            if(IsRunningAsAdministrator())
+            {
+                Process.Start("cleanmgr");
+            }
+            else
+            {
+                MessageBox.Show("This application needs to be run as Administrator for full functionality.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            
+        }
+
+        private void guna2Button1_Click_1(object sender, EventArgs e)
+        {
+            if(IsRunningAsAdministrator())
+            {
+                Process.Start("taskmgr");
+            }
+            else
+            {
+                MessageBox.Show("This application needs to be run as Administrator for full functionality.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+           
+        }
+
+        private void guna2Button3_Click(object sender, EventArgs e)
+        {
+            Process.Start("ipconfig", "/flushdns");
+            Process.Start("netsh", "interface set interface \"Wi-Fi\" admin=disable");
+            Process.Start("netsh", "interface set interface \"Wi-Fi\" admin=enable");
+        }
+
+        private void guna2Button4_Click(object sender, EventArgs e)
+        {
+            randomValues randomValues = new randomValues();
+            randomValues.Show();
+
+
 
         }
     }
