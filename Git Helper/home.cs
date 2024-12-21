@@ -209,56 +209,25 @@ namespace Git_Helper
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        //private void scanClean_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        // Step 1: Kill the explorer.exe process
-        //        foreach (var process in System.Diagnostics.Process.GetProcessesByName("explorer"))
-        //        {
-        //            process.Kill();
-        //            process.WaitForExit(); // Ensure the process is terminated
-
-        //        }
-
-        //        // Step 2: Restart explorer.exe and isn't start explorer window
-
-
-
-
-        //        // Inform the user
-        //        //MessageBox.Show("Windows Explorer has been restarted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //        Console.Beep(500, 1000);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Handle any errors gracefully
-        //        MessageBox.Show($"An error occurred while restarting Windows Explorer: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
         private void scanClean_Click(object sender, EventArgs e)
         {
             try
             {
-                // Step 1: Kill all explorer.exe processes
+                // Step 1: Kill the explorer.exe process
                 foreach (var process in System.Diagnostics.Process.GetProcessesByName("explorer"))
                 {
                     process.Kill();
-                    process.WaitForExit(); // Ensure each process is terminated
+                    process.WaitForExit(); // Ensure the process is terminated
+
                 }
 
-                // Step 2: Restart explorer.exe without opening an Explorer window
-                var startInfo = new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = "explorer.exe",
-                    Arguments = "/factory,{682159D9-C321-47CA-B3F1-30E36B2EC8B9}", // Starts without an explorer window
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
-                System.Diagnostics.Process.Start(startInfo);
+                // Step 2: Restart explorer.exe and isn't start explorer window
 
-                // Inform the user via a system beep
-                Console.Beep(500, 1000); // 500 Hz for 1 second
+                //System.Diagnostics.Process.Start("explorer.exe");   
+
+                // Inform the user
+                //MessageBox.Show("Windows Explorer has been restarted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Console.Beep(500, 1000);
             }
             catch (Exception ex)
             {
@@ -266,7 +235,6 @@ namespace Git_Helper
                 MessageBox.Show($"An error occurred while restarting Windows Explorer: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
 
         private void guna2ControlBox1_Click(object sender, EventArgs e)
